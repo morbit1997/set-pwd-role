@@ -1,0 +1,6 @@
+---
+- name: "set password and set pwd expire time"
+  hosts: host1
+  become: true
+  roles:
+    - set-pass-and-change-role

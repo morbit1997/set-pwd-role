@@ -1,0 +1,14 @@
+---
+# tasks file for set-pass-and-change-role
+- name: "generate password"
+  ansible.builtin.set_fact:
+    passwd: "{{ lookup('password', '/dev/null length=12 chars=ascii_letters') }}"
+- name: "show password"
+  ansible.builtin.debug:
+    msg: "{{ passwd }}"
+- name: "set password"
+  ansible.builtin.user:
+    name: "{{ user }}"
+    password: "{{ passwd | password_hash('sha512') }}"
+- name: "change password on first login"
+  ansible.builtin.command: chage -d0 "{{ user }}"
